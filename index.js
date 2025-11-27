@@ -825,10 +825,13 @@ ioSocket.on('connection', (socket) => {
     });
 });
 
-server.listen({ port: 3005 }, (err, address) => {
+const PORT = process.env.PORT || 3005;
+
+server.listen({ port: PORT, host: '0.0.0.0' }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
   }
-  console.log(`Server is running at http://localhost:3000`);
+  console.log(`Server is running at ${address}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

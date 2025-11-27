@@ -8,7 +8,6 @@ import {
     streamingGeneratingCustomEngine,
     stopGeneration,
     generationStopped
-    resetGenerationState
 } from './generation.js';
 
 let reconnectAttempts = 0;

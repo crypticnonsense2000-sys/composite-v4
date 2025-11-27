@@ -124,6 +124,7 @@ export function initializeSocket() {
 
         window.socket.on('start_generate', async (data) => {
             console.log('Received start_generate signal from server');
+            resetGenerationState();
             const { messages, settings } = data;
             let parsedMessages = JSON.parse(messages);
 

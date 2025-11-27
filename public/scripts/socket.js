@@ -123,6 +123,15 @@ export function initializeSocket() {
 
         window.socket.on('start_generate', async (data) => {
             console.log('Received start_generate signal from server');
+
+            // Reset generation flag before starting
+    if (window.currentGeneration) {
+        try {
+            if (window.currentGeneration.abort) window.currentGeneration.abort();
+        } catch(e) {}
+    }
+    window.currentGeneration = null;
+            
             const { messages, settings } = data;
             let parsedMessages = JSON.parse(messages);
 

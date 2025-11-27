@@ -593,6 +593,7 @@ server.post("/v1/chat/completions", async (request, reply) => {
 
 
     const onMessage = (chunk) => {
+        console.log('[DEBUG] Received chunk from frontend:', typeof chunk, chunk?.substring?.(0, 50));
         if (generationActive && chunk !== null && chunk !== undefined) {
             lastMessageTime = Date.now(); // Track when we last received a message
             let content = typeof chunk === 'string' ? chunk : chunk.toString();
@@ -626,7 +627,12 @@ server.post("/v1/chat/completions", async (request, reply) => {
                                     }
                                 }]
                             });
-                            reply.raw.write(`data: ${payload}\n\n`);
+                            try {
+    reply.raw.write(`data: ${payload}\n\n`);
+    console.log('[DEBUG] Wrote chunk to client');
+} catch (e) {
+    console.error('[DEBUG] Write failed:', e.message);
+                            }
                         } catch (chunkError) {
                             console.warn('Chunk serialization failed, skipping chunk');
                         }

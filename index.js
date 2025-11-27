@@ -572,6 +572,9 @@ server.post("/v1/chat/completions", async (request, reply) => {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': 'Cache-Control'
         });
+
+        // SEND INITIAL EMPTY CHUNK TO KEEP CONNECTION ALIVE
+    reply.raw.write('data: {"choices":[{"delta":{"content":""}}]}\n\n');
     }
 
     userSocket.emit('start_generate', {
